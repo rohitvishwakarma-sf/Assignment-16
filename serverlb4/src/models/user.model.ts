@@ -3,22 +3,22 @@ import {Customer, CustomerWithRelations} from './customer.model';
 import {Role, RoleWithRelations} from './role.model';
 
 @model({
-  settings:{
-    foreignKeys:{
-      fk_users_customer:{
-        name:'fk_users_customer',
-        entity:'Customer',
-        entityKey:'id',
-        foreignKey:'customerid'
+  settings: {
+    foreignKeys: {
+      fk_users_customer: {
+        name: 'fk_users_customer',
+        entity: 'Customer',
+        entityKey: 'id',
+        foreignKey: 'customerid',
       },
-      fk_users_role:{
-        name:'fk_users_role',
-        entity:'Role',
-        entityKey:'key',
-        foreignKey:'rolekey'
-      }
-    }
-  }
+      fk_users_role: {
+        name: 'fk_users_role',
+        entity: 'Role',
+        entityKey: 'key',
+        foreignKey: 'rolekey',
+      },
+    },
+  },
 })
 export class User extends Entity {
   @property({
@@ -48,8 +48,17 @@ export class User extends Entity {
   @property({
     type: 'string',
     required: true,
+    index: {
+      unique: true,
+    },
   })
   email: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  password: string;
 
   @property({
     type: 'string',
@@ -62,10 +71,9 @@ export class User extends Entity {
     required: true,
   })
   address: string;
-  
+
   @belongsTo(() => Customer)
   customerId: number;
-
 
   @belongsTo(() => Role, {name: 'roles'})
   roleKey: string;
@@ -77,7 +85,6 @@ export class User extends Entity {
   @property({
     type: 'date',
     default: 'now',
-
   })
   modifiedOn?: string;
 
@@ -88,8 +95,8 @@ export class User extends Entity {
 
 export interface UserRelations {
   // describe navigational properties here
-  customerId:CustomerWithRelations;
-  roleKey:RoleWithRelations;
+  customerId: CustomerWithRelations;
+  roleKey: RoleWithRelations;
 }
 
 export type UserWithRelations = User & UserRelations;

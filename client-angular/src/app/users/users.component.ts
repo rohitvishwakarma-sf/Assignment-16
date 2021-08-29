@@ -24,4 +24,7 @@ export class UsersComponent implements OnInit {
     const index = this.users.findIndex((user) => user.id == id);
     this.users.splice(index, 1);
   }
+  login() {
+    this.userService.login();
+  }
 }

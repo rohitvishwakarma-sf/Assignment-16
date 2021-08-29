@@ -56,4 +56,15 @@ export class UsersService implements ICRUD<User> {
 
     return this.http.patch(url, user);
   }
+
+  async login() {
+    const body = {
+      email: 'rohit@gmail.com',
+      password: 'password',
+    };
+    const token = await this.http
+      .post(`${baseURL}/users/login`, body)
+      .toPromise();
+    console.log(`token is ${token}`);
+  }
 }
