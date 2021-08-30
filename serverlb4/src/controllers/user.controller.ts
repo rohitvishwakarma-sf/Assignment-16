@@ -57,6 +57,7 @@ export class UserController {
   async signup(@requestBody() userData: User) {
     validateCredentials(_.pick(userData, ['email', 'password']));
     userData.password = await this.hasher.hashPassword(userData.password);
+    userData.createdOn = userData.modifiedOn = new Date().toString();
     const savedUser = await this.userRepository.create(userData);
     return {...savedUser, password: undefined};
   }
@@ -111,7 +112,7 @@ export class UserController {
     //generating token
     const token = await this.jwtService.generateToken(userProfile);
 
-    return Promise.resolve({token});
+    return Promise.resolve({user, token});
   }
 
   @post('/users')
